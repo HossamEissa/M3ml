@@ -12,7 +12,7 @@ if (!function_exists('get_data_of_user')){
             'gender' => $user->gender,
             'Phone_number' => $user->phone_number,
             'date_of_birth' => $user->date_of_birth,
-            'profile_image' => ($user->photo == '0') ? null :asset('images/'.$user->photo),
+            'profile_image' => ($user->photo == '0') ? null :asset('public/images/'.$user->photo),
             'token' => $token,
         ];
     }
