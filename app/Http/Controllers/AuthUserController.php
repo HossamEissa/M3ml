@@ -39,8 +39,8 @@ class AuthUserController extends Controller
         try {
             $validator = Validator::make(request()->all(), [
                 'name' => 'required',
-                'phone_number' => 'required|numeric|digits:11',
-                'date_of_birth' => 'required|string|',
+                'phone_number' => 'required|numeric|digits:11|unique:users,phone_number',
+                'date_of_birth' => 'required|string',
                 'gender' => 'required|in:male,female',
                 'password' => 'required|confirmed|min:8',
             ]);
@@ -49,13 +49,15 @@ class AuthUserController extends Controller
             if ($validator->fails()) {
                 return $this->returnValidationError($validator);
             }
-            User::create([
+           $res =  User::create([
                 'name' => $request->name,
                 'phone_number' => $request->phone_number,
                 'date_of_birth' => $request->date_of_birth,
                 'gender' => $request->gender,
+                'photo' => '0',
                 'password' => Hash::make($request->password),
             ]);
+
             $msg = "Register Successfully ! ";
             return $this->returnSuccessMessage($msg);
 
