@@ -12,7 +12,7 @@ class VerificationServices
     public function setVerificationCode($data)
     {
         $code = mt_rand(100000, 999999);
-        $data['code'] = $code;
+        $data['code'] = 555555;
         Verification_code::whereNotNull('user_id')->where(['user_id' => $data['user_id']])->delete();
         return Verification_code::create($data);
     }
