@@ -1,6 +1,9 @@
 <?php
 
 use App\Http\Controllers\AuthUserController;
+use App\Http\Controllers\LoginController;
+use App\Http\Controllers\RegisterController;
+use App\Http\Controllers\VerificationCodeController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -15,10 +18,15 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::controller(AuthUserController::class)->group(function () {
-    Route::post('/register', 'register')->name('register');
-    Route::post('/login', 'login')->name('login');
-    Route::post('/logout', 'logout')->name('logout');
-    Route::post('/image', 'set_image');
 
+Route::post('/register', [RegisterController::class, 'register'])->name('register');
+Route::post('/login', [LoginController::class, 'login'])->name('login');
+
+Route::group(['middleware' => ['verifiedUser', 'CheckJwtAuth:api'] ], function () {
+    Route::post('/logout', [AuthUserController::class , 'logout'])->name('logout');
+
+});
+
+Route::group(['middleware' => 'CheckJwtAuth:api'], function () {
+    Route::post('verify-user', [VerificationCodeController::class, 'verify']);
 });

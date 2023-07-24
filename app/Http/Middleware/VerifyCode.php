@@ -5,11 +5,12 @@ namespace App\Http\Middleware;
 use App\Traits\responseTrait;
 use Closure;
 use Illuminate\Http\Request;
-use Tymon\JWTAuth\Facades\JWTAuth;
+use Illuminate\Support\Facades\Auth;
 
-class CheckJwtAuth
+class VerifyCode
 {
     use responseTrait;
+
     /**
      * Handle an incoming request.
      *
@@ -19,11 +20,10 @@ class CheckJwtAuth
      */
     public function handle(Request $request, Closure $next)
     {
-        try {
-            $user = JWTAuth::parseToken()->authenticate();
-            $request->auth = $user;
-        } catch (\Exception $e) {
-            return $this->returnError($error = "", "من فضلك سجل الدخول أولا ");
+        if (Auth::guard()->check()) {
+            if (Auth::user()->mobile_verified_at == null) {
+                return $this->returnError($this->getErrorCode('mobile'), 'من فضلك ادخل تحقق من رقم الموبايل');
+            }
         }
         return $next($request);
     }

@@ -66,8 +66,8 @@ class User extends Authenticatable implements JWTSubject
         return [];
     }
 
-//    public function get_code()
-//    {
-//        return $this->hasMany(Verification_code::class, 'user_id');
-//    }
+    public function get_code()
+    {
+        return $this->hasMany(Verification_code::class, 'user_id');
+    }
 }
