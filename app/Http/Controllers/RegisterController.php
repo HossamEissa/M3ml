@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Services\SMSGateways\VonageSMS;
 use App\Http\Services\VerificationServices;
 use App\Models\User;
 use App\Traits\responseTrait;
@@ -61,12 +62,11 @@ class RegisterController extends Controller
             }
 
             // SMS OTP to users
-            $this->SMS_make($user);
+            $res = $this->SMS_make($user);
             //END SMS OTP to users
 
             $msg = "تم تسجيل الحساب بنجاح";
             return $this->returnSuccessMessage($msg);
-
 
         } catch (\Exception $e) {
             DB::rollBack();
@@ -83,6 +83,6 @@ class RegisterController extends Controller
         $verification['user_id'] = $user->id;
         $verification_data = $sms_services->setVerificationCode($verification);
         $message = $sms_services->getSMSVerifyMessage($verification_data->code);
-        // app(VictoryLinkSMS::class)->sendSms($user->phone_number, $message);
+        //return app(VonageSMS::class)->sendSms($user->phone_number, $message , 'المعمل');
     }
 }

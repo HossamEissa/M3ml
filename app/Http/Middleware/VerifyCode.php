@@ -20,10 +20,9 @@ class VerifyCode
      */
     public function handle(Request $request, Closure $next)
     {
-        if (Auth::guard()->check()) {
-            if (Auth::user()->mobile_verified_at == null) {
-                return $this->returnError($this->getErrorCode('mobile'), 'من فضلك ادخل تحقق من رقم الموبايل');
-            }
+
+        if (Auth::guard('api')->user()->mobile_verified_at == null) {
+            return $this->returnError($this->getErrorCode('mobile'), 'من فضلك كود التحقق من رقم الموبايل');
         }
         return $next($request);
     }

@@ -19,8 +19,8 @@ class VerificationServices
 
     public function getSMSVerifyMessage($code)
     {
-        $message = " هذا هو رقم الكود الخاص بحسابك من فضلك لا تعطيه لاحد";
-        return $message . $code;
+        $message = "This is your verification Code from Hossam Eissa dont't share it ";
+        return $message.$code;
     }
 
     public function checkOtpCode($code)

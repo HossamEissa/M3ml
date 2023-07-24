@@ -19,12 +19,11 @@ use Illuminate\Support\Facades\Route;
 */
 
 
-Route::post('/register', [RegisterController::class, 'register'])->name('register');
-Route::post('/login', [LoginController::class, 'login'])->name('login');
+Route::post('/register', [RegisterController::class, 'register']);
+Route::post('/login', [LoginController::class, 'login']);
 
-Route::group(['middleware' => ['verifiedUser', 'CheckJwtAuth:api'] ], function () {
-    Route::get('/logout', [AuthUserController::class , 'logout'])->name('logout');
-
+Route::group(['middleware' => ['verifiedUser:api', 'CheckJwtAuth:api']], function () {
+    Route::get('/logout', [AuthUserController::class, 'logout'])->name('logout');
 });
 
 Route::group(['middleware' => 'CheckJwtAuth:api'], function () {
