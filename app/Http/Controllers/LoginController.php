@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Validator;
 use Tymon\JWTAuth\Facades\JWTAuth;
+use function PHPUnit\Framework\isFalse;
 
 class LoginController extends Controller
 {
@@ -39,6 +40,7 @@ class LoginController extends Controller
             $token = JWTAuth::fromUser($user);
             $msg = "تم تسجيل الدخول بنجاح";
             $data = get_data_of_user($user, $token);
+            $data['verified'] = ($user->mobile_verified_at == null) ? false : true;
             return $this->returnData("data", $data, $msg);
 
         } catch (\Exception $e) {

@@ -60,7 +60,7 @@ class AuthUserController extends Controller
 
     public function logout()
     {
-        auth()->logout();
+        auth('api')->logout();
 
         return response()->json(['message' => 'تم تسجيل الخروج بنجاح']);
     }
