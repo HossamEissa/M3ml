@@ -23,7 +23,7 @@ Route::post('/register', [RegisterController::class, 'register'])->name('registe
 Route::post('/login', [LoginController::class, 'login'])->name('login');
 
 Route::group(['middleware' => ['verifiedUser', 'CheckJwtAuth:api'] ], function () {
-    Route::post('/logout', [AuthUserController::class , 'logout'])->name('logout');
+    Route::get('/logout', [AuthUserController::class , 'logout'])->name('logout');
 
 });
 
