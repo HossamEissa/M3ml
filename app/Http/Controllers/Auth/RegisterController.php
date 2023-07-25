@@ -30,14 +30,15 @@ class RegisterController extends Controller
      */
     public function register(RegisterUserRequest $request)
     {
+        DB::beginTransaction();
         try {
             $user = User::create([
-                'name' => $request->name,
-                'phone_number' => $request->phone_number,
-                'date_of_birth' => $request->date_of_birth,
-                'gender' => $request->gender,
+                'name' => $request->input('name'),
+                'phone_number' => $request->input('phone_number'),
+                'date_of_birth' => $request->input('date_of_birth'),
+                'gender' => $request->input('date_of_birth'),
                 'photo' => '0',
-                'password' => Hash::make($request->password),
+                'password' => Hash::make($request->input('password')),
             ]);
             if ($request->hasFile('photo')) {
                 if ($user->photo != '0') {
@@ -50,9 +51,9 @@ class RegisterController extends Controller
 
             SMS_make($user->id, $this->verificationServices);
 
+            DB::commit();
             $msg = "تم تسجيل الحساب بنجاح";
             return $this->returnSuccessMessage($msg);
-
         } catch (\Exception $e) {
             DB::rollBack();
             $msg = "حاول مجددا فى وقت لاحق ";
