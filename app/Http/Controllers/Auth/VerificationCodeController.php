@@ -3,12 +3,16 @@
 namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
+use App\Http\Controllers\Auth\LoginController;
 use App\Http\Requests\ResetPasswordUserRequest;
 use App\Http\Requests\VerificationCodeRequest;
 use App\Http\Services\VerificationServices;
+use App\Models\User;
 use App\Traits\responseTrait;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Validator;
+use Tymon\JWTAuth\Facades\JWTAuth;
 
 class VerificationCodeController extends Controller
 {
@@ -38,9 +42,11 @@ class VerificationCodeController extends Controller
         $check = $this->verificationServices->checkOtpResetPassword($request->id, $request->code);
         if ($check) {
             $this->verificationServices->removeOtpCode($request->code);
-            return $this->returnSuccessMessage('تم التحقق بنجاح من رقم الهاتف');
+            return app(LoginController::class)->loginAfterReset($request->id);
         } else {
             return $this->returnError($this->getErrorCode('mobile'), 'يرجى ادخال كود التحقق الصحيح');
         }
     }
+
+
 }

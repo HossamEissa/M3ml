@@ -28,7 +28,8 @@ class ForgetPasswordController extends Controller
         Verification_code::where('user_id', $user->id)->delete();
         if ($user) {
             SMS_make($user->id, $this->services);
-            return $this->returnSuccessMessage('تم العثور عليه');
+            $data['user_id'] = $user->id;
+            return $this->returnData('data', $data, 'تم العثور علي الحساب');
         } else {
             return $this->returnError('', 'هذا الهاتف غير مسجل لدينا');
         }

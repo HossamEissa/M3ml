@@ -4,10 +4,12 @@ namespace App\Http\Services;
 
 use App\Models\User;
 use App\Models\Verification_code;
+use App\Traits\responseTrait;
 use Illuminate\Support\Facades\Auth;
 
 class VerificationServices
 {
+    use  responseTrait;
 
     public function setVerificationCode($data)
     {
@@ -41,14 +43,17 @@ class VerificationServices
 
     public function removeOtpCode($code)
     {
-        Verification_code::where('code', $code)->delete();
+        $code_correct = Verification_code::where('code', $code)->delete();
+        if (!$code_correct) {
+            return $this->returnError('', 'ادخل الكود الصحيح او اعد المحاولة ');
+        }
     }
 
     public function checkOtpResetPassword($user_id, $code)
     {
 
         $verification_data = Verification_code::where('user_id', $user_id)->first();
-        if ($verification_data->code == $code) {
+        if ($verification_data && $verification_data->code == $code) {
             User::whereId($user_id)->update([
                 'mobile_verified_at' => now()
             ]);

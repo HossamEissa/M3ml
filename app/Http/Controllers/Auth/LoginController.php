@@ -24,13 +24,13 @@ class LoginController extends Controller
         try {
 
             $credentials = $request->only('phone_number', 'password');
-            if (!auth::attempt($credentials)) {
+            if (!auth::guard('api')->attempt($credentials)) {
                 $msg = "رقم الهاتف او الرقم السرى غير صحيح ";
                 return $this->returnError('000', $msg);
             }
 
 
-            $user = Auth::user();
+            $user = Auth::guard('api')->user();
             $token = JWTAuth::fromUser($user);
             $msg = "تم تسجيل الدخول بنجاح";
             $data = get_data_of_user($user, $token);
@@ -41,6 +41,15 @@ class LoginController extends Controller
             $msg = $e->getMessage();
             return $this->returnError($error = "", $msg);
         }
+    }
+
+    public function loginAfterReset($id)
+    {
+        $user = Auth::loginUsingId($id);
+        $token = JWTAuth::fromUser($user);
+        $data = get_data_of_user($user, $token);
+        $data['verified'] = ($user->mobile_verified_at == null) ? false : true;
+        return $this->returnData("data", $data, 'تم التحقق من رقم الموبايل بنجاح');
     }
 
 
