@@ -1,10 +1,11 @@
 <?php
 
-use App\Http\Controllers\AuthUserController;
-use App\Http\Controllers\LoginController;
-use App\Http\Controllers\RegisterController;
-use App\Http\Controllers\VerificationCodeController;
-use Illuminate\Http\Request;
+use App\Http\Controllers\Auth\AuthUserController;
+use App\Http\Controllers\Auth\ForgetPasswordController;
+use App\Http\Controllers\Auth\LoginController;
+use App\Http\Controllers\Auth\RegisterController;
+use App\Http\Controllers\Auth\ResetPasswordController;
+use App\Http\Controllers\Auth\VerificationCodeController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -21,6 +22,12 @@ use Illuminate\Support\Facades\Route;
 
 Route::post('/register', [RegisterController::class, 'register']);
 Route::post('/login', [LoginController::class, 'login']);
+#################################### Reset Password #########################################################
+Route::post('forget-password', [ForgetPasswordController::class, 'check']);
+Route::post('check-reset-password', [VerificationCodeController::class, 'resetPasswordCodeVerify']);
+Route::post('reset-password', [ResetPasswordController::class, 'change_password'])->middleware('verifiedUser:api');
+##################################### End Reset Password #######################################################
+
 
 Route::group(['middleware' => ['verifiedUser:api', 'CheckJwtAuth:api']], function () {
     Route::get('/logout', [AuthUserController::class, 'logout'])->name('logout');

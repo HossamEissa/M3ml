@@ -22,7 +22,7 @@ class VerifyCode
     {
 
         if (Auth::guard('api')->user()->mobile_verified_at == null) {
-            return $this->returnError($this->getErrorCode('mobile'), 'من فضلك كود التحقق من رقم الموبايل');
+            return $this->returnError($this->getErrorCode('mobile'), 'من فضلك ادخل كود التحقق من رقم الموبايل');
         }
         return $next($request);
     }

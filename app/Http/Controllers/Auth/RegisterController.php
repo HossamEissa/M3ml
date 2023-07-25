@@ -1,13 +1,13 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Auth;
 
-use App\Http\Services\SMSGateways\VonageSMS;
+use App\Http\Controllers\Controller;
+use App\Http\Requests\RegisterUserRequest;
 use App\Http\Services\VerificationServices;
 use App\Models\User;
 use App\Traits\responseTrait;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
@@ -15,6 +15,7 @@ use Illuminate\Support\Facades\Validator;
 class RegisterController extends Controller
 {
     use responseTrait;
+
     public $verificationServices;
 
     public function __construct(VerificationServices $verificationServices)
@@ -27,23 +28,9 @@ class RegisterController extends Controller
      *
      * @return \Illuminate\Http\JsonResponse
      */
-    public function register(Request $request)
+    public function register(RegisterUserRequest $request)
     {
         try {
-
-            $validator = Validator::make(request()->all(), [
-                'name' => 'required',
-                'phone_number' => 'required|numeric|digits:11|unique:users,phone_number',
-                'date_of_birth' => 'required|string',
-                'gender' => 'required|in:male,female',
-                'password' => 'required|confirmed|min:8',
-                'photo' => 'mimes:jpg,jpeg,png,gif,svg',
-            ]);
-
-
-            if ($validator->fails()) {
-                return $this->returnValidationError($validator);
-            }
             $user = User::create([
                 'name' => $request->name,
                 'phone_number' => $request->phone_number,
@@ -61,9 +48,7 @@ class RegisterController extends Controller
                 $user->save();
             }
 
-            // SMS OTP to users
-            $res = $this->SMS_make($user);
-            //END SMS OTP to users
+            SMS_make($user->id, $this->verificationServices);
 
             $msg = "تم تسجيل الحساب بنجاح";
             return $this->returnSuccessMessage($msg);
@@ -76,13 +61,4 @@ class RegisterController extends Controller
 
     }
 
-    public function SMS_make($user)
-    {
-        $verification = [];
-        $sms_services = $this->verificationServices;
-        $verification['user_id'] = $user->id;
-        $verification_data = $sms_services->setVerificationCode($verification);
-        $message = $sms_services->getSMSVerifyMessage($verification_data->code);
-        //return app(VonageSMS::class)->sendSms($user->phone_number, $message , 'المعمل');
-    }
 }

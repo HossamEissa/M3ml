@@ -20,12 +20,12 @@ class VerificationServices
     public function getSMSVerifyMessage($code)
     {
         $message = "This is your verification Code from Hossam Eissa dont't share it ";
-        return $message.$code;
+        return $message . $code;
     }
 
     public function checkOtpCode($code)
     {
-        if (Auth::user()->mobile_verified_at == null) {
+        if (Auth::guard('api')->user()->mobile_verified_at == null) {
             $verification_data = Verification_code::where('user_id', Auth::id())->first();
             if ($verification_data->code == $code) {
                 User::whereId(Auth::id())->update([
@@ -42,6 +42,22 @@ class VerificationServices
     public function removeOtpCode($code)
     {
         Verification_code::where('code', $code)->delete();
+    }
+
+    public function checkOtpResetPassword($user_id, $code)
+    {
+
+        $verification_data = Verification_code::where('user_id', $user_id)->first();
+        if ($verification_data->code == $code) {
+            User::whereId($user_id)->update([
+                'mobile_verified_at' => now()
+            ]);
+            return true;
+        } else {
+            return false;
+        }
+
+
     }
 
 }

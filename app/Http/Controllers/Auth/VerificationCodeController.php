@@ -1,7 +1,10 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Auth;
 
+use App\Http\Controllers\Controller;
+use App\Http\Requests\ResetPasswordUserRequest;
+use App\Http\Requests\VerificationCodeRequest;
 use App\Http\Services\VerificationServices;
 use App\Traits\responseTrait;
 use Illuminate\Http\Request;
@@ -18,16 +21,8 @@ class VerificationCodeController extends Controller
         $this->verificationServices = $verificationServices;
     }
 
-    public function verify(Request $request)
+    public function verify(VerificationCodeRequest $request)
     {
-        $validation = Validator::make($request->all(), [
-            'code' => 'required',
-        ], ['code.required' => 'هذا الحقل مطلوب من فضلك ادخل الكود']);
-
-        if ($validation->fails()) {
-            return $this->returnValidationError($validation);
-        }
-
         $check = $this->verificationServices->checkOtpCode($request->code);
         if ($check) {
             $this->verificationServices->removeOtpCode($request->code);
@@ -36,5 +31,16 @@ class VerificationCodeController extends Controller
             return $this->returnError($this->getErrorCode('mobile'), 'يرجى ادخال كود التحقق الصحيح');
         }
 
+    }
+
+    public function resetPasswordCodeVerify(ResetPasswordUserRequest $request)
+    {
+        $check = $this->verificationServices->checkOtpResetPassword($request->id, $request->code);
+        if ($check) {
+            $this->verificationServices->removeOtpCode($request->code);
+            return $this->returnSuccessMessage('تم التحقق بنجاح من رقم الهاتف');
+        } else {
+            return $this->returnError($this->getErrorCode('mobile'), 'يرجى ادخال كود التحقق الصحيح');
+        }
     }
 }
