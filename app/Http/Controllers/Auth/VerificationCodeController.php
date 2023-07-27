@@ -39,10 +39,11 @@ class VerificationCodeController extends Controller
 
     public function resetPasswordCodeVerify(ResetPasswordUserRequest $request)
     {
-        $check = $this->verificationServices->checkOtpResetPassword($request->id, $request->code);
+        $user = User::where('phone_number', $request->mobile)->first();
+        $check = $this->verificationServices->checkOtpResetPassword($user->id, $request->code);
         if ($check) {
             $this->verificationServices->removeOtpCode($request->code);
-            return app(LoginController::class)->loginAfterReset($request->id);
+            return $this->returnSuccessMessage('تم التحقق بنجاح');
         } else {
             return $this->returnError($this->getErrorCode('mobile'), 'يرجى ادخال كود التحقق الصحيح');
         }

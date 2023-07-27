@@ -29,7 +29,7 @@ class ResetPasswordUserRequest extends FormRequest
     public function rules()
     {
         return [
-            'id' => 'required|exists:users,id',
+            'mobile' => 'required|exists:users,phone_number',
             'code' => 'required'
         ];
     }
@@ -37,6 +37,8 @@ class ResetPasswordUserRequest extends FormRequest
     public function messages()
     {
         return [
+            'mobile.required' => 'من فضلك ادخل رقم الموبايل',
+            'mobile.exists' => 'هذا الرقم غير موجود',
             'code.required' => 'هذا الحقل مطلوب من فضلك ادخل الكود',
         ];
     }

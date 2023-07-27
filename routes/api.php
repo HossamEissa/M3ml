@@ -27,7 +27,7 @@ Route::post('verify-user', [VerificationCodeController::class, 'verify']);
 #################################### Reset Password #########################################################
 Route::post('forget-password', [ForgetPasswordController::class, 'check']);
 Route::post('check-reset-password', [VerificationCodeController::class, 'resetPasswordCodeVerify']);
-Route::post('reset-password', [ResetPasswordController::class, 'change_password'])->middleware('verifiedUser:api');
+Route::post('reset-password', [ResetPasswordController::class, 'change_password']);
 ##################################### End Reset Password #######################################################
 
 

@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Auth;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\ChangePasswordUserRequest;
 use App\Http\Requests\ResetPasswordUserRequest;
+use App\Models\User;
 use App\Traits\responseTrait;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
@@ -16,18 +17,18 @@ class ResetPasswordController extends Controller
 
     public function __construct()
     {
-        $this->middleware(['verifiedUser:api', 'CheckJwtAuth:api']);
     }
 
 
     public function change_password(ChangePasswordUserRequest $request)
     {
         try {
-            $user = Auth::guard('api')->user();
+            $user = User::where('phone_number', $request->mobile)->first();
             $user->update([
                 'password' => Hash::make($request->password),
             ]);
-            return $this->returnSuccessMessage('تم تغيير الباسورد بنجاح');
+            $msg = 'تم تغير الرقم السرى بنجاح';
+            return app(LoginController::class)->loginAfterReset($user->id, $msg);
 
         } catch (\Exception $e) {
             DB::rollBack();

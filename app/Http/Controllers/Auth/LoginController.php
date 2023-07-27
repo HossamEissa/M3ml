@@ -43,13 +43,16 @@ class LoginController extends Controller
         }
     }
 
-    public function loginAfterReset($id)
+    public function loginAfterReset($id, $msg = null)
     {
         $user = Auth::loginUsingId($id);
         $token = JWTAuth::fromUser($user);
         $data = get_data_of_user($user, $token);
         $data['verified'] = ($user->mobile_verified_at == null) ? false : true;
-        return $this->returnData("data", $data, 'تم التحقق من رقم الموبايل بنجاح');
+        if (!$msg) {
+            $msg = 'تم التحقق من رقم الموبايل بنجاح';
+        }
+        return $this->returnData("data", $data, $msg);
     }
 
 
