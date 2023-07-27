@@ -25,15 +25,16 @@ class VerificationServices
         return $message . $code;
     }
 
-    public function checkOtpCode($code)
+    public function checkOtpCode($mobile, $code)
     {
-        if (Auth::guard('api')->user()->mobile_verified_at == null) {
-            $verification_data = Verification_code::where('user_id', Auth::id())->first();
-            if ($verification_data->code == $code) {
-                User::whereId(Auth::id())->update([
+        $user = User::where('phone_number', $mobile)->first();
+        if ($user && $user->mobile_verified_at == null) {
+            $verification_data = Verification_code::where('user_id', $user->id)->first();
+            if ($verification_data && $verification_data->code == $code) {
+                User::whereId($user->id)->update([
                     'mobile_verified_at' => now()
                 ]);
-                return true;
+                return $user->id;
             } else {
                 return false;
             }

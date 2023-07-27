@@ -2,8 +2,8 @@
 
 namespace App\Http\Controllers\Auth;
 
-use App\Http\Controllers\Controller;
 use App\Http\Controllers\Auth\LoginController;
+use App\Http\Controllers\Controller;
 use App\Http\Requests\ResetPasswordUserRequest;
 use App\Http\Requests\VerificationCodeRequest;
 use App\Http\Services\VerificationServices;
@@ -27,10 +27,10 @@ class VerificationCodeController extends Controller
 
     public function verify(VerificationCodeRequest $request)
     {
-        $check = $this->verificationServices->checkOtpCode($request->code);
+        $check = $this->verificationServices->checkOtpCode($request->mobile, $request->code);
         if ($check) {
             $this->verificationServices->removeOtpCode($request->code);
-            return $this->returnSuccessMessage('تم التحقق بنجاح من رقم الهاتف');
+            return app(LoginController::class)->loginAfterReset($check);
         } else {
             return $this->returnError($this->getErrorCode('mobile'), 'يرجى ادخال كود التحقق الصحيح');
         }

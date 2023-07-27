@@ -22,6 +22,8 @@ use Illuminate\Support\Facades\Route;
 
 Route::post('/register', [RegisterController::class, 'register']);
 Route::post('/login', [LoginController::class, 'login']);
+Route::post('verify-user', [VerificationCodeController::class, 'verify']);
+
 #################################### Reset Password #########################################################
 Route::post('forget-password', [ForgetPasswordController::class, 'check']);
 Route::post('check-reset-password', [VerificationCodeController::class, 'resetPasswordCodeVerify']);
@@ -33,6 +35,5 @@ Route::group(['middleware' => ['verifiedUser:api', 'CheckJwtAuth:api']], functio
     Route::get('/logout', [AuthUserController::class, 'logout'])->name('logout');
 });
 
-Route::group(['middleware' => 'CheckJwtAuth:api'], function () {
-    Route::post('verify-user', [VerificationCodeController::class, 'verify']);
-});
+
+
