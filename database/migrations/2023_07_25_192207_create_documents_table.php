@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateUserFactoryDocumentsTable extends Migration
+class CreateDocumentsTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,8 +13,12 @@ class CreateUserFactoryDocumentsTable extends Migration
      */
     public function up()
     {
-        Schema::create('user__factory__documents', function (Blueprint $table) {
+        Schema::create('documents', function (Blueprint $table) {
             $table->id();
+            $table->unsignedBigInteger('user_factory_id');
+            $table->foreign('user_factory_id')->references('id')
+                ->on('user_factory_pivots')->onDelete('cascade');
+            $table->string('path');
             $table->timestamps();
         });
     }
@@ -26,6 +30,6 @@ class CreateUserFactoryDocumentsTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('user__factory__documents');
+        Schema::dropIfExists('documents');
     }
 }

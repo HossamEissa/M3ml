@@ -32,14 +32,16 @@ class RegisterController extends Controller
     {
         DB::beginTransaction();
         try {
-            $user = User::create([
-                'name' => $request->input('name'),
-                'phone_number' => $request->input('phone_number'),
-                'date_of_birth' => $request->input('date_of_birth'),
-                'gender' => $request->input('date_of_birth'),
-                'photo' => '0',
-                'password' => Hash::make($request->input('password')),
-            ]);
+
+            $user = User::create(request()->all());
+//            [
+//                'name' => request('name'),
+//                'phone_number' => request('phone_number'),
+//                'date_of_birth' => request('date_of_birth'),
+//                'gender' => request('gender'),
+//                'photo' => '0',
+//                'password' => Hash::make(request('password')),
+//            ]
             if ($request->hasFile('photo')) {
                 if ($user->photo != '0') {
                     delete_image('users', $user->photo);
@@ -56,7 +58,8 @@ class RegisterController extends Controller
             return $this->returnSuccessMessage($msg);
         } catch (\Exception $e) {
             DB::rollBack();
-            $msg = "حاول مجددا فى وقت لاحق ";
+            $msg['msg'] = "حدث خطأ ما حاول مجددا فى وقت لاحق ";
+            $msg['error'] = $e->getMessage();
             return $this->returnError($error = "", $msg);
         }
 

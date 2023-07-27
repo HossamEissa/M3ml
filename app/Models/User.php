@@ -66,10 +66,10 @@ class User extends Authenticatable implements JWTSubject
         return [];
     }
 
-    public function get_code()
+    public function factories()
     {
-        return $this->hasMany(Verification_code::class, 'user_id');
+        return $this->belongsToMany(UserFactoryPivot::class, 'user_factory_pivots'
+            , 'user_id', 'factory_id');
     }
-
 
 }
