@@ -22,7 +22,8 @@ if (!function_exists('get_data_of_user')) {
 if (!function_exists('upload_image')) {
     function upload_image(Request $request, $folder, $file, $disk)
     {
-        $file_name = Str::random(32) . '.' . $request->file($file)->getClientOriginalExtension();
+        $extension = $request->file($file)->getClientOriginalExtension() ;
+        $file_name = Str::random(32) . '.' . $extension;
         $path = $request->file($file)->storeAs($folder, $file_name, $disk);
 
         return $path;

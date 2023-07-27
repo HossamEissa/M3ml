@@ -34,14 +34,8 @@ class RegisterController extends Controller
         try {
 
             $user = User::create(request()->all());
-//            [
-//                'name' => request('name'),
-//                'phone_number' => request('phone_number'),
-//                'date_of_birth' => request('date_of_birth'),
-//                'gender' => request('gender'),
-//                'photo' => '0',
-//                'password' => Hash::make(request('password')),
-//            ]
+            $user->password = Hash::make(request('password'));
+            $user->save();
             if ($request->hasFile('photo')) {
                 if ($user->photo != '0') {
                     delete_image('users', $user->photo);
