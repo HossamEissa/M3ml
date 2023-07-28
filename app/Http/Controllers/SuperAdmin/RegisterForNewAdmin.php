@@ -21,6 +21,7 @@ class RegisterForNewAdmin
     {
         DB::beginTransaction();
         try {
+
             $admin = Admin::create([
                 'name' => $request->input('name'),
                 'phone' => $request->input('phone'),
