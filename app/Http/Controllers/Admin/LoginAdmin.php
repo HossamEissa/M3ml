@@ -14,6 +14,7 @@ class LoginAdmin
     public function login(LoginAdminRequest $request)
     {
         try {
+
             $credentials = $request->only('name', 'password');
             if (!auth::guard('admin')->attempt($credentials)) {
                 $msg = "رقم الهاتف او الرقم السرى غير صحيح ";
