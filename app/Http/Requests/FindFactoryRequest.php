@@ -3,12 +3,14 @@
 namespace App\Http\Requests;
 
 use App\Rules\NoSpaces;
+use App\Traits\responseTrait;
 use Illuminate\Contracts\Validation\Validator;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Http\Exceptions\HttpResponseException;
 
 class FindFactoryRequest extends FormRequest
 {
+    use responseTrait;
     /**
      * Determine if the user is authorized to make this request.
      *
