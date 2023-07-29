@@ -11,6 +11,13 @@ class VerifyCode
 {
     use responseTrait;
 
+    public $guard;
+
+    public function __construct($guard)
+    {
+        $this->guard = $guard;
+    }
+
     /**
      * Handle an incoming request.
      *
@@ -20,11 +27,10 @@ class VerifyCode
      */
     public function handle(Request $request, Closure $next)
     {
-        $user = Auth::guard('api')->user();
-        if(!$user){
-            return $this->returnError('' , 'لايمكنك اجراء هذه العمليه');
-        }
-        else if ( $user->mobile_verified_at == null) {
+        $userOrAdmin = Auth::guard($this->guard)->user();
+        if (!$userOrAdmin) {
+            return $this->returnError('', 'لايمكنك اجراء هذه العمليه');
+        } else if ($userOrAdmin->mobile_verified_at == null) {
             return $this->returnError($this->getErrorCode('mobile'), 'من فضلك ادخل كود التحقق من رقم الموبايل');
         }
         return $next($request);

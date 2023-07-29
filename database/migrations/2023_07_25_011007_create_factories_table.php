@@ -17,6 +17,7 @@ class CreateFactoriesTable extends Migration
             $table->id();
             $table->string('name')->unique();
             $table->string('title');
+            $table->boolean('active');
             $table->text('description');
             $table->timestamps();
         });

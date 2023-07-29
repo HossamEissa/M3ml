@@ -18,7 +18,7 @@ class CreateDocumentsTable extends Migration
             $table->unsignedBigInteger('user_factory_id');
             $table->foreign('user_factory_id')->references('id')
                 ->on('user_factory_pivots')->onDelete('cascade');
-            $table->string('path');
+            $table->string('path')->default(0);
             $table->timestamps();
         });
     }

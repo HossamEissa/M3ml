@@ -10,6 +10,7 @@ use Tymon\JWTAuth\Facades\JWTAuth;
 class CheckJwtAuth
 {
     use responseTrait;
+
     /**
      * Handle an incoming request.
      *
@@ -20,8 +21,8 @@ class CheckJwtAuth
     public function handle(Request $request, Closure $next)
     {
         try {
-            $user = JWTAuth::parseToken()->authenticate();
-            $request->auth = $user;
+            $userOrAdmin = JWTAuth::parseToken()->authenticate();
+            $request->auth = $userOrAdmin;
         } catch (\Exception $e) {
             return $this->returnError($error = "", "من فضلك سجل الدخول أولا ");
         }

@@ -14,20 +14,20 @@ if (!function_exists('get_data_of_user')) {
             'gender' => $user->gender,
             'Phone_number' => $user->phone_number,
             'date_of_birth' => $user->date_of_birth,
-            'photo' => ($user->photo == 0) ? null : asset('public/images/' . $user->photo),
+            'photo' => ($user->photo == 0) ? null : Storage::disk('users')->url($user->photo),
             'token' => $token,
         ];
     }
 }
 if (!function_exists('upload_image')) {
-    function upload_image(Request $request, $folder, $file, $disk)
+    function upload_image(Request $request, $folder, $name_file_on_request, $disk)
     {
-        $extension = $request->file($file)->getClientOriginalExtension();
+        $extension = $request->file($name_file_on_request)->getClientOriginalExtension();
         if (empty($extension)) {
             $extension = "jpeg";
         }
         $file_name = Str::random(32) . '.' . $extension;
-        $path = $request->file($file)->storeAs($folder, $file_name, $disk);
+        $path = $request->file($name_file_on_request)->storeAs($folder, $file_name, $disk);
 
         return $path;
     }

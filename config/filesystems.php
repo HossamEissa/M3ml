@@ -45,7 +45,21 @@ return [
         'users' => [
             'driver' => 'local',
             'root' => public_path('images'),
-            'url' => env('APP_URL').'/public',
+            'url' => env('APP_URL').'/public/images',
+            'visibility' => 'public',
+        ],
+
+        'documents' => [
+            'driver' => 'local',
+            'root' => public_path('images/documents'),
+            'url' => env('APP_URL').'/public/images/documents',
+            'visibility' => 'public',
+        ],
+
+        'offers' => [
+            'driver' => 'local',
+            'root' => public_path('images/offers'),
+            'url' => env('APP_URL').'/public/images/offers',
             'visibility' => 'public',
         ],
 
