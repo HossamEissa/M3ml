@@ -29,8 +29,8 @@ Route::post('/login', [LoginController::class, 'login']);
 Route::post('verify-user', [VerificationCodeController::class, 'verify']);
 Route::group(['middleware' => ['verifiedUser:api', 'CheckJwtAuth:api']], function () {
     Route::get('/logout', [AuthUserController::class, 'logout'])->name('logout');
+    Route::post('edit_profile', [AuthUserController::class, 'Edit_Profile']);
 });
-Route::post('edit_profile', [AuthUserController::class, 'Edit_Profile']);
 #################################### End Auth ########################################################
 
 #################################### Reset Password ######################################################

@@ -6,6 +6,7 @@ use App\Traits\responseTrait;
 use Illuminate\Contracts\Validation\Validator;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Http\Exceptions\HttpResponseException;
+use Illuminate\Validation\Rule;
 
 class EditUserProfileRequest extends FormRequest
 {
@@ -28,10 +29,14 @@ class EditUserProfileRequest extends FormRequest
      */
     public function rules()
     {
+        $userId = auth('api')->id();
         return [
-            'id' => 'required|exists:users,id',
             'name' => 'string',
-            'phone_number' => 'numeric|digits:11|unique:users,phone_number',
+            'phone_number' => [
+                'numeric',
+                'digits:11',
+                Rule::unique('users', 'phone_number')->ignore($userId),
+            ],
             'date_of_birth' => 'string',
             'gender' => 'in:male,female',
             'password' => 'confirmed|min:8',

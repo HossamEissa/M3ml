@@ -11,12 +11,6 @@ class VerifyCode
 {
     use responseTrait;
 
-    public $guard;
-
-    public function __construct($guard)
-    {
-        $this->guard = $guard;
-    }
 
     /**
      * Handle an incoming request.
@@ -27,7 +21,7 @@ class VerifyCode
      */
     public function handle(Request $request, Closure $next)
     {
-        $userOrAdmin = Auth::guard($this->guard)->user();
+        $userOrAdmin = Auth::guard('api')->user();
         if (!$userOrAdmin) {
             return $this->returnError('', 'لايمكنك اجراء هذه العمليه');
         } else if ($userOrAdmin->mobile_verified_at == null) {

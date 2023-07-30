@@ -25,7 +25,7 @@ class AuthUserController extends Controller
 
     public function __construct()
     {
-        //$this->middleware('CheckJwtAuth:api', ['except' => ['login', 'register']]);
+        $this->middleware('CheckJwtAuth:api', ['except' => ['login', 'register']]);
 
     }
 
@@ -39,13 +39,18 @@ class AuthUserController extends Controller
     public function Edit_Profile(EditUserProfileRequest $request)
     {
         try {
-            $user = User::find($request->id);
+            $user = Auth::guard('api')->user();
             $user->update([
                 'name' => $request->name ?? $user->name,
-                'phone_number' => $request->phone_number ?? $user->phone_number,
                 'date_of_birth' => $request->date_of_birth ?? $user->date_of_birth,
                 'gender' => $request->gender ?? $user->gender,
             ]);
+            $newPhoneNumber = $request->input('phone_number');
+            $currentUser = User::find($user->id);
+            if ($currentUser->phone_number !== $newPhoneNumber) {
+                $currentUser->phone_number = $newPhoneNumber;
+                $currentUser->save();
+            }
             if ($request->password) {
                 $user->password = Hash::make($request->password);
                 $user->save();
@@ -58,10 +63,10 @@ class AuthUserController extends Controller
                 $user->photo = $image_path;
                 $user->save();
             }
-            $data = $user ;
+            $data = $user;
             $data->photo = Storage::disk('users')->url($user->photo);
             $msg = "تم تعديل الحساب بنجاح";
-            return $this->returnData('data' , $user ,$msg);
+            return $this->returnData('data', $user, $msg);
 
         } catch (\Exception $e) {
             $msg = $e->getMessage();
