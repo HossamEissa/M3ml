@@ -30,6 +30,7 @@ Route::post('verify-user', [VerificationCodeController::class, 'verify']);
 Route::group(['middleware' => ['verifiedUser:api', 'CheckJwtAuth:api']], function () {
     Route::get('/logout', [AuthUserController::class, 'logout'])->name('logout');
 });
+Route::post('edit_profile', [AuthUserController::class, 'Edit_Profile']);
 #################################### End Auth ########################################################
 
 #################################### Reset Password ######################################################
@@ -38,16 +39,19 @@ Route::post('check-reset-password', [VerificationCodeController::class, 'resetPa
 Route::post('reset-password', [ResetPasswordController::class, 'change_password']);
 ##################################### End Reset Password ##################################################
 
-Route::group(['middleware' => ['CheckJwtAuth:api']], function () {
-
 ################################ Factory Information ###################################################
+Route::group(['middleware' => ['CheckJwtAuth:api', 'verifiedUser:api']], function () {
+
     Route::post('find-factory', [FactoryController::class, 'find']);
     Route::post('show-document', [DocumentController::class, 'show']);
     Route::post('download-document', [DocumentController::class, 'download']);
+
+});
 ################################ End Factory Information ################################################
 
 ################################ Offers ################################################################
+Route::group(['middleware' => ['CheckJwtAuth:api', 'verifiedUser:api']], function () {
     Route::post('show-offers', [FactoryOfferController::class, 'show']);
-################################ End Offers ############################################################
 });
+################################ End Offers ############################################################
 

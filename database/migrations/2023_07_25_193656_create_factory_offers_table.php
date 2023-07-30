@@ -16,6 +16,9 @@ class CreateFactoryOffersTable extends Migration
         Schema::create('factory_offers', function (Blueprint $table) {
             $table->id();
             $table->string('title');
+            $table->unsignedBigInteger('factory_id');
+            $table->foreign('factory_id')->references('id')
+                ->on('factories')->onDelete('cascade')->onUpdate('cascade');
             $table->text('description')->nullable();
             $table->string('photo_path')->nullable();
             $table->timestamps();

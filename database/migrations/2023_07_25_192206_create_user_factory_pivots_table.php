@@ -18,9 +18,9 @@ class CreateUserFactoryPivotsTable extends Migration
             $table->unsignedBigInteger('user_id');
             $table->unsignedBigInteger('factory_id');
             $table->foreign('user_id')->references('id')
-                ->on('users')->onDelete('cascade');
+                ->on('users')->onDelete('cascade')->onUpdate('cascade');
             $table->foreign('factory_id')->references('id')
-                ->on('factories')->onDelete('cascade');
+                ->on('factories')->onDelete('cascade')->onUpdate('cascade');
             $table->timestamps();
         });
     }

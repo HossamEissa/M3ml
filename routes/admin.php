@@ -9,6 +9,7 @@ use App\Http\Controllers\Auth\ResetPasswordController;
 use App\Http\Controllers\Auth\VerificationCodeController;
 use App\Http\Controllers\DocumentController;
 use App\Http\Controllers\FactoryController;
+use App\Http\Controllers\FactoryOfferController;
 use App\Http\Controllers\SuperAdmin\ActivationController;
 use App\Http\Controllers\SuperAdmin\RegisterForNewAdmin;
 use Illuminate\Support\Facades\Route;
@@ -24,11 +25,12 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-################################## Auth ##########################################
+################################## Auth ###############################################
 Route::post('register', [RegisterForNewAdmin::class, 'register']);
 Route::post('login', [LoginAdmin::class, 'login']);
 Route::post('activation', [ActivationController::class, 'activation']);
-################################ End Auth #########################################
+Route::post('change-admin-password', [ActivationController::class, 'change_password']);
+################################ End Auth ##############################################
 
 ################################ Factory ###############################################
 Route::post('create-factory', [RegisterForNewAdmin::class, 'create']);
@@ -39,9 +41,18 @@ Route::group(['middleware' => 'CheckJwtAuth:admin'], function () {
 ################################ End Factory ###########################################
 
 ################################# Document #############################################
-Route::group(['middleware' => ['CheckJwtAuth:admin' ]], function () {
+Route::group(['middleware' => ['CheckJwtAuth:admin']], function () {
     Route::post('add-document', [DocumentController::class, 'add']);
     Route::post('show-document', [DocumentController::class, 'show']);
     Route::post('delete-document', [DocumentController::class, 'delete']);
 });
-################################# End Document ###########################################
+################################# End Document ##########################################
+
+################################# Offers ################################################
+Route::group(['middleware' => 'CheckJwtAuth:admin'], function () {
+    Route::post('add-offer', [FactoryOfferController::class, 'add']);
+    Route::post('show-offer', [FactoryOfferController::class, 'show']);
+    Route::post('delete-offer', [FactoryOfferController::class, 'delete']);
+    Route::post('edit-offer', [FactoryOfferController::class, 'edit']);
+});
+################################# End Offers #############################################
