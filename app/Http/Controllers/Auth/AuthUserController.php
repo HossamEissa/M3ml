@@ -63,10 +63,9 @@ class AuthUserController extends Controller
                 $user->photo = $image_path;
                 $user->save();
             }
-            $data = $user;
-            $data->photo = Storage::disk('users')->url($user->photo);
             $msg = "تم تعديل الحساب بنجاح";
-            return $this->returnData('data', $user, $msg);
+            $data = get_data_of_user($user , '');
+            return $this->returnData('data', $data, $msg);
 
         } catch (\Exception $e) {
             $msg = $e->getMessage();
