@@ -34,6 +34,7 @@ Route::post('change-admin-password', [ActivationController::class, 'change_passw
 
 ################################ Factory ###############################################
 Route::post('create-factory', [RegisterForNewAdmin::class, 'create']);
+    Route::get('all-users', [FactoryController::class, 'allUsers']);
 Route::group(['middleware' => 'CheckJwtAuth:admin'], function () {
     Route::post('edit-factory', [FactoryController::class, 'edit']);
     Route::post('change-password', [FactoryController::class, 'change_password']);
@@ -41,7 +42,7 @@ Route::group(['middleware' => 'CheckJwtAuth:admin'], function () {
 ################################ End Factory ###########################################
 
 ################################# Document #############################################
-    Route::post('add-document', [DocumentController::class, 'add']);
+Route::post('add-document', [DocumentController::class, 'add']);
 Route::group(['middleware' => ['CheckJwtAuth:admin']], function () {
     Route::post('show-document', [DocumentController::class, 'show']);
     Route::post('delete-document', [DocumentController::class, 'delete']);

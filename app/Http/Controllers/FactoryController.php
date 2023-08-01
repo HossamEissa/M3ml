@@ -12,6 +12,7 @@ use App\Models\UserFactoryPivot;
 use App\Traits\responseTrait;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Validator;
 
 class FactoryController extends Controller
 {
@@ -37,8 +38,9 @@ class FactoryController extends Controller
     public function edit(EditFactoryRequest $request)
     {
         try {
-            $factory = Factory::where('name', $request->name)->first();
+            $factory = Factory::where('user_name', $request->user_name)->first();
             $factory->update([
+                'name' => $request->name,
                 'title' => $request->title,
                 'description' => $request->description
             ]);
@@ -49,9 +51,24 @@ class FactoryController extends Controller
         }
     }
 
-    public function change_password()
+    public function allUsers(Request $request)
     {
+        try {
+            $valid = Validator::make($request->all(), [
+                'name' => 'required|exists:factories,user_name|exists:admins,name'
+            ]);
 
+            if ($valid->fails()) {
+                return $this->returnValidationError($valid);
+            }
+
+            $factory = Factory::where('user_name', $request->name);
+
+            return $factory->users();
+        } catch (\Exception $e) {
+            $msg = $e->getMessage();
+            return $this->returnError($error = "", $msg);
+        }
     }
 
 }
