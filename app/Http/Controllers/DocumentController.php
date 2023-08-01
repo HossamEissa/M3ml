@@ -22,12 +22,13 @@ class DocumentController extends Controller
     {
         DB::beginTransaction();
         try {
-            $factory = Factory::where('name', auth('admin')->user()->name)->first();
+            $factory = Factory::where('user_name', auth('admin')->user()->name)->first();
             $user = User::where('phone_number', $request->phone)->first();
             $user->factories()->sync([$factory->id], true);
 
             $pivot = UserFactoryPivot::where('user_id', $user->id)->where('factory_id', $factory->id)->first();
             $document = Document::create([
+                'title' => $request->title,
                 'user_factory_id' => $pivot->id,
                 'path' => '0'
             ]);
@@ -52,12 +53,13 @@ class DocumentController extends Controller
     public function show(ShowDocumentRequest $request)
     {
         try {
-            $factory = Factory::where('name', $request->name)->first();
+            $factory = Factory::where('user_name', $request->name)->first();
             $user = User::where('phone_number', $request->phone)->first();
             $pivot = UserFactoryPivot::where('user_id', $user->id)->where('factory_id', $factory->id)->first();
-            $images = $pivot->images()->orderBy('created_at', 'desc')->select('id', 'path')->get();
+            $images = $pivot->images()->orderBy('created_at', 'desc')->select('id', 'path', 'title')->get();
             $formattedResult = $images->map(function ($image) {
                 return [
+                    'title' => $image->title,
                     'id' => $image->id,
                     'path' => Storage::disk('documents')->url($image->path),
                 ];

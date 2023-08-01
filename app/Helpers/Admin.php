@@ -7,6 +7,7 @@ if (!function_exists('get_data_of_admin')) {
             'name' => $admin->name,
             'phone' => $admin->phone,
             'token' => $token,
+            'data_of_factory' => $admin->data_of_factory,
         ];
     }
 }

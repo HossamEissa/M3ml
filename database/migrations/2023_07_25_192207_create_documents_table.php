@@ -15,6 +15,7 @@ class CreateDocumentsTable extends Migration
     {
         Schema::create('documents', function (Blueprint $table) {
             $table->id();
+            $table->string('title');
             $table->unsignedBigInteger('user_factory_id');
             $table->foreign('user_factory_id')->references('id')
                 ->on('user_factory_pivots')->onDelete('cascade')->onUpdate('cascade');

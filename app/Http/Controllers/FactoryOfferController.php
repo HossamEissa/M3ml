@@ -21,7 +21,7 @@ class FactoryOfferController extends Controller
     {
         DB::beginTransaction();
         try {
-            $factory = Factory::select('id')->where('name', $request->name)->first();
+            $factory = Factory::select('id')->where('user_name', $request->name)->first();
             $offer = FactoryOffer::create([
                 'title' => $request->title,
                 'factory_id' => $factory->id,

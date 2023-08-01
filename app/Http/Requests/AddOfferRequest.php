@@ -30,7 +30,7 @@ class AddOfferRequest extends FormRequest
     public function rules()
     {
         return [
-            'name' => ['required', 'exists:factories,name', 'exists:admins,name', 'string', new NoSpaces()],
+            'name' => ['required', 'exists:factories,user_name', 'exists:admins,name', 'string', new NoSpaces()],
             'title' => 'required|string',
             'description' => 'required|string',
             'photo' => 'mimes:jpg,jpeg,png,gif,svg,pdf'

@@ -8,9 +8,11 @@ use Illuminate\Database\Eloquent\Model;
 class Document extends Model
 {
     use HasFactory;
+
     protected $fillable = [
-      'user_factory_id' ,
-      'path',
+        'title',
+        'user_factory_id',
+        'path',
     ];
 
     protected $hidden = [

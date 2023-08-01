@@ -18,7 +18,7 @@ class ActivationController extends Controller
         try {
 
             $valid = Validator::make($request->all(), [
-                'name' => ['required', 'exists:factories,name', 'string', new NoSpaces()],
+                'name' => ['required', 'exists:factories,user_name', 'string', new NoSpaces()],
                 'active' => 'required|boolean'
             ]);
 
@@ -26,7 +26,7 @@ class ActivationController extends Controller
                 $this->returnValidationError($valid);
             }
 
-            $factory = Factory::where('name', $request->name)->first();
+            $factory = Factory::where('user_name', $request->name)->first();
             $factory->update([
                 'active' => $request->active,
             ]);

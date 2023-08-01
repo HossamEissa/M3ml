@@ -10,6 +10,7 @@ use Illuminate\Http\Exceptions\HttpResponseException;
 class AddDocumentRequest extends FormRequest
 {
     use responseTrait;
+
     /**
      * Determine if the user is authorized to make this request.
      *
@@ -28,10 +29,12 @@ class AddDocumentRequest extends FormRequest
     public function rules()
     {
         return [
+            'title' => 'required|string',
             'phone' => 'required|exists:users,phone_number|numeric',
-            'photo'=> 'required|mimes:jpg,jpeg,png,gif,svg,pdf'
+            'photo' => 'required|mimes:jpg,jpeg,png,gif,svg,pdf'
         ];
     }
+
     public function failedValidation(Validator $validator)
     {
         throw new HttpResponseException(

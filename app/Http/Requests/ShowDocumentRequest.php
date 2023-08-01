@@ -30,7 +30,7 @@ class ShowDocumentRequest extends FormRequest
     public function rules()
     {
         return [
-            'name' => ['required','exists:factories,name' , new NoSpaces()],
+            'name' => ['required','exists:factories,user_name' , new NoSpaces()],
             'phone' => ['required' , 'exists:users,phone_number']
         ];
     }

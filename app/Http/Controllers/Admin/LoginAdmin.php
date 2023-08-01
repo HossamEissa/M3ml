@@ -24,8 +24,9 @@ class LoginAdmin
     {
         try {
             if ($request->name) {
-                $factory_active = Factory::select('active')->where('name', $request->name)->first();
-                if (!$factory_active) {
+                $factory = Factory::where('user_name', $request->name)->first();
+                $factory->makeHidden(['created_at', 'updated_at']);
+                if (!$factory->active) {
                     return $this->returnError('', 'يجب تفعيل المعمل اولا وسداد الاشتراك');
                 }
             }
@@ -39,7 +40,7 @@ class LoginAdmin
             $admin = Auth::guard('admin')->user();
             $token = JWTAuth::fromUser($admin);
             $msg = "تم تسجيل الدخول بنجاح";
-            $admin['active'] = $factory_active;
+            $admin['data_of_factory'] = $factory;
             $data = get_data_of_admin($admin, $token);
             return $this->returnData("data", $data, $msg);
 

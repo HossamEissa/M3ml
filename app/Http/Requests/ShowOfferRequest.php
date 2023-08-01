@@ -29,7 +29,7 @@ class ShowOfferRequest extends FormRequest
     public function rules()
     {
         return [
-            'name' => ['required', new NoSpaces() , 'exists:factories,name'],
+            'name' => ['required', new NoSpaces() , 'exists:factories,user_name'],
         ];
     }
 

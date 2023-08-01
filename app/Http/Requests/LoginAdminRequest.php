@@ -29,7 +29,7 @@ class LoginAdminRequest extends FormRequest
     public function rules()
     {
         return [
-            'name' => 'required|exists:factories,name|exists:admins,name|string',
+            'name' => 'required|exists:factories,user_name|exists:admins,name|string',
             'password' => 'required'
         ];
     }

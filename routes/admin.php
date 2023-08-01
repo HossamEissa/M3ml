@@ -41,8 +41,8 @@ Route::group(['middleware' => 'CheckJwtAuth:admin'], function () {
 ################################ End Factory ###########################################
 
 ################################# Document #############################################
-Route::group(['middleware' => ['CheckJwtAuth:admin']], function () {
     Route::post('add-document', [DocumentController::class, 'add']);
+Route::group(['middleware' => ['CheckJwtAuth:admin']], function () {
     Route::post('show-document', [DocumentController::class, 'show']);
     Route::post('delete-document', [DocumentController::class, 'delete']);
 });
