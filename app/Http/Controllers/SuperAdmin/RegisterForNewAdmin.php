@@ -25,7 +25,7 @@ class RegisterForNewAdmin
         try {
 
             $admin = Admin::create([
-                'name' => $request->input('name'),
+                'name' => $request->input('user_name'),
                 'phone' => $request->input('phone'),
                 'password' => Hash::make($request->input('password'))
             ]);

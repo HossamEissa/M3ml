@@ -15,7 +15,8 @@ class CreateFactoriesTable extends Migration
     {
         Schema::create('factories', function (Blueprint $table) {
             $table->id();
-            $table->string('name')->unique();
+            $table->string('user_name')->unique();
+            $table->string('name');
             $table->string('title');
             $table->boolean('active');
             $table->text('description');

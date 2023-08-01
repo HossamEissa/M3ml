@@ -29,7 +29,7 @@ class RegisterAdminRequest extends FormRequest
     public function rules()
     {
         return [
-            'name' => ['required', 'exists:factories,name', 'string', new NoSpaces() , 'unique:admins,name'],
+            'user_name' => ['required', 'exists:factories,user_name', 'string', new NoSpaces() , 'unique:admins,name'],
             'phone' => 'required|digits:11|numeric',
             'password' => 'required|confirmed|min:8',
         ];

@@ -29,7 +29,7 @@ class FindFactoryRequest extends FormRequest
     public function rules()
     {
         return [
-            'name' => ['required', 'exists:factories,name', new NoSpaces()],
+            'user_name' => ['required', 'exists:factories,user_name', new NoSpaces()],
         ];
     }
 

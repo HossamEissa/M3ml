@@ -11,6 +11,7 @@ use Illuminate\Http\Exceptions\HttpResponseException;
 class CreateFactoryRequest extends FormRequest
 {
     use responseTrait;
+
     /**
      * Determine if the user is authorized to make this request.
      *
@@ -29,10 +30,11 @@ class CreateFactoryRequest extends FormRequest
     public function rules()
     {
         return [
-            'name' => ['required', 'string', new NoSpaces()],
+            'user_name' => ['required', 'string', new NoSpaces(), 'unique:factories,name'],
+            'name' => 'required|string',
             'title' => 'required|string',
             'description' => 'required|string',
-            'active'  => 'required|boolean'
+            'active' => 'required|boolean'
         ];
     }
 

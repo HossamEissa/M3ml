@@ -21,7 +21,7 @@ class FactoryController extends Controller
     {
         DB::beginTransaction();
         try {
-            $factory = Factory::where('name', $request->name)->first();
+            $factory = Factory::where('user_name', $request->user_name)->first();
             $user = auth('api')->user();
             $user->factories()->sync([$factory->id], true);
 
