@@ -22,9 +22,11 @@ if (!function_exists('get_data_of_user')) {
 if (!function_exists('upload_image')) {
     function upload_image(Request $request, $folder, $name_file_on_request, $disk)
     {
-        $fileName = $request->file($name_file_on_request)->getClientOriginalName();
-        $extension =pathinfo($fileName, PATHINFO_EXTENSION);
-        $file_name = Str::random(32) .'.'. $extension;
+        $fileNameOriginal = $request->file($name_file_on_request)->getClientOriginalName();
+        $extension = Str::slug(pathinfo($fileNameOriginal, PATHINFO_FILENAME))
+            . '.' . pathinfo($fileNameOriginal, PATHINFO_EXTENSION);
+
+        $file_name = Str::random(32) . '_' . $extension;
         $path = $request->file($name_file_on_request)->storeAs($folder, $file_name, $disk);
 
         return $path;
