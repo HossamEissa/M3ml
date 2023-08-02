@@ -40,12 +40,14 @@ class FactoryController extends Controller
     {
         try {
             $factory = Factory::where('user_name', $request->user_name)->first();
+            $factory->makeHidden(['created_at', 'updated_at']);
             $factory->update([
                 'name' => $request->name,
                 'title' => $request->title,
                 'description' => $request->description
             ]);
-            return $this->returnSuccessMessage('تم تعديل البيانات بنجاح');
+
+            return $this->returnData('data',$factory,'تم تعديل البيانات بنجاح');
         } catch (\Exception $e) {
             $msg = $e->getMessage();
             return $this->returnError($error = "", $msg);
