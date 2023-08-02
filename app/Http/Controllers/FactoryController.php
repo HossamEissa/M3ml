@@ -12,6 +12,7 @@ use App\Models\UserFactoryPivot;
 use App\Traits\responseTrait;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Validator;
 
 class FactoryController extends Controller
@@ -62,9 +63,22 @@ class FactoryController extends Controller
                 return $this->returnValidationError($valid);
             }
 
-            $factory = Factory::where('user_name', $request->name);
+            $factory = Factory::where('user_name', $request->name)->first();
 
-            return $factory->users();
+            $users = $factory->users;
+
+
+            $formattedResult = $users->map(function ($user) {
+                return [
+                    'id' => $user->id,
+                    "name" => $user->name,
+                    "Phone_number" => $user->phone_number,
+                    "date_of_birth" => $user->date_of_birth,
+                    "gender" => $user->gender,
+                    'path' => ($user->photo == 0) ? null : Storage::disk('users')->url($user->photo),
+                ];
+            });
+            return $this->returnData('data', $formattedResult);
         } catch (\Exception $e) {
             $msg = $e->getMessage();
             return $this->returnError($error = "", $msg);
