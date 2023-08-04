@@ -48,7 +48,7 @@ class FactoryOfferController extends Controller
     public function show(ShowOfferRequest $request)
     {
         try {
-            $factory = Factory::where('name', $request->name)->first();
+            $factory = Factory::where('user_name', $request->name)->first();
             $offers = $factory->offers()->select('id', 'title', 'description', 'photo_path')->latest()->get();
             $formattedResult = $offers->map(function ($offer) {
                 return [
