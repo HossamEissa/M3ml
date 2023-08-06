@@ -28,12 +28,14 @@ class ChangePasswordRequest extends FormRequest
     public function rules()
     {
         return [
+            'old_password' => 'required',
             'password' => 'required|confirmed|min:8',
         ];
     }
     public function messages()
     {
         return [
+            'old_password.required' => 'من فضلك ادخل الرقم السرى الذى تريد تغيره',
             'password.required' => 'من فضلك ادخل الرقم السرى الجديد' ,
             'password.confirmed' => 'الرقم السرى غير متطابق',
             'password.min' => 'يجب الايقل عن 8 حروف او ارقام',
