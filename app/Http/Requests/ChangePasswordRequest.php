@@ -7,7 +7,7 @@ use Illuminate\Contracts\Validation\Validator;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Http\Exceptions\HttpResponseException;
 
-class ChangePasswordUserRequest extends FormRequest
+class ChangePasswordRequest extends FormRequest
 {
     use responseTrait;
     /**
@@ -28,19 +28,15 @@ class ChangePasswordUserRequest extends FormRequest
     public function rules()
     {
         return [
-            'mobile' => 'required|exists:users,phone_number',
             'password' => 'required|confirmed|min:8',
         ];
     }
-
     public function messages()
     {
         return [
-           'password.required' => 'من فضلك ادخل الرقم السرى الجديد' ,
+            'password.required' => 'من فضلك ادخل الرقم السرى الجديد' ,
             'password.confirmed' => 'الرقم السرى غير متطابق',
             'password.min' => 'يجب الايقل عن 8 حروف او ارقام',
-            'mobile.required' => 'من فضلك ادخل رقم الموبايل',
-            'mobile.exists' => 'هذا الرقم غير موجود'
         ] ;
     }
 

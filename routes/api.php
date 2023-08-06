@@ -41,11 +41,10 @@ Route::post('reset-password', [ResetPasswordController::class, 'change_password'
 
 ################################ Factory Information ###################################################
 Route::group(['middleware' => ['CheckJwtAuth:api', 'verifiedUser:api']], function () {
-
+    Route::post('change-password', [FactoryController::class, 'change_password']);
     Route::post('find-factory', [FactoryController::class, 'find']);
     Route::post('show-document', [DocumentController::class, 'show']);
     Route::post('download-document', [DocumentController::class, 'download']);
-
 });
 ################################ End Factory Information ################################################
 

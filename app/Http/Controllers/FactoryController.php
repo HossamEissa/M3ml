@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\ChangePasswordRequest;
 use App\Http\Requests\CreateFactoryRequest;
 use App\Http\Requests\EditFactoryRequest;
 use App\Http\Requests\FindFactoryRequest;
@@ -12,6 +13,7 @@ use App\Models\UserFactoryPivot;
 use App\Traits\responseTrait;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Validator;
 
@@ -82,6 +84,27 @@ class FactoryController extends Controller
             });
             return $this->returnData('data', $formattedResult);
         } catch (\Exception $e) {
+            $msg = $e->getMessage();
+            return $this->returnError($error = "", $msg);
+        }
+    }
+
+    public function change_password(ChangePasswordRequest $request){
+        try {
+            $user = Auth('api')->user();
+            $old_password = $request->old_password;
+            if(!password_verify($old_password , $user->password))
+            {
+                return $this->returnError('' , 'الرقم السرى الذى ادخلته غير صحيح');
+            }
+
+            $user->update([
+                'password' => Hash::make($request->password),
+            ]);
+
+            return $this->returnSuccessMessage('تم تغير الرقم السرى بنجاح');
+
+        }catch (\Exception $e) {
             $msg = $e->getMessage();
             return $this->returnError($error = "", $msg);
         }
