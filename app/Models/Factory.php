@@ -10,7 +10,7 @@ class Factory extends Model
     use HasFactory;
 
     protected $fillable = [
-        'user_name' ,'name', 'title', 'description', 'active'
+        'user_name' ,'name', 'title', 'description', 'active' , 'facebook','whatsApp'
     ];
 
     public function users()

@@ -46,6 +46,8 @@ class FactoryController extends Controller
             $factory->update([
                 'name' => $request->name,
                 'title' => $request->title,
+                'facebook' =>$request->facebook,
+                'whatsApp' =>$request->whatsApp,
                 'description' => $request->description
             ]);
 

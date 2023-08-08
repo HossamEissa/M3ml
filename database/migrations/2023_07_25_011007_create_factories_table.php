@@ -19,6 +19,8 @@ class CreateFactoriesTable extends Migration
             $table->string('name');
             $table->string('title');
             $table->boolean('active');
+            $table->string('facebook')->nullable();
+            $table->string('whatsApp')->nullable();
             $table->text('description');
             $table->timestamps();
         });

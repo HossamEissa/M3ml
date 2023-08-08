@@ -32,6 +32,8 @@ class EditFactoryRequest extends FormRequest
         return [
             'user_name' => ['required', 'exists:factories,user_name', 'exists:admins,name', 'string', new NoSpaces()],
             'title' => 'required|string',
+            'facebook' => 'nullable|string',
+            'whatsApp' => 'nullable|string',
             'description' => 'required|string',
         ];
     }
