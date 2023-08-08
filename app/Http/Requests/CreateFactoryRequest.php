@@ -30,7 +30,7 @@ class CreateFactoryRequest extends FormRequest
     public function rules()
     {
         return [
-            'user_name' => ['required', 'string', new NoSpaces(), 'unique:factories,name'],
+            'user_name' => ['required', 'string', new NoSpaces(), 'unique:factories,user_name'],
             'name' => 'required|string',
             'title' => 'required|string',
             'facebook' => 'nullable|string',
