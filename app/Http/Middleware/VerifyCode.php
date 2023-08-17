@@ -23,7 +23,7 @@ class VerifyCode
     {
         $userOrAdmin = Auth::guard('api')->user();
         if (!$userOrAdmin) {
-            return $this->returnError('', 'لايمكنك اجراء هذه العمليه');
+            return $this->returnError('', 'لايمكنك القيام بهذه العمليه لانه غير مصرح لك او لانك لم تقم بتسجيل الدخول');
         } else if ($userOrAdmin->mobile_verified_at == null) {
             return $this->returnError($this->getErrorCode('mobile'), 'من فضلك ادخل كود التحقق من رقم الموبايل');
         }

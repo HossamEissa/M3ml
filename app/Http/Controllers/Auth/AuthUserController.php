@@ -25,7 +25,7 @@ class AuthUserController extends Controller
 
     public function __construct()
     {
-        $this->middleware('CheckJwtAuth:api', ['except' => ['login', 'register']]);
+        $this->middleware('CheckJwtAuth:api');
 
     }
 
@@ -73,5 +73,19 @@ class AuthUserController extends Controller
         }
     }
 
+    public function profile(Request $request){
+        $user = Auth::user();
+        $data = get_data_of_user($user ,'');
+        return $this->returnData('data' , $data );
+    }
+
+    public function delete_user(){
+        $user = Auth::user();
+        $find = User::find($user->id)->delete();
+        if ($find)
+        return $this->returnSuccessMessage('تم حذف الحساب بنجاح');
+        else
+            return $this->returnError('' , 'لم يتم حذف الحساب حاول مره اخرى');
+    }
 
 }

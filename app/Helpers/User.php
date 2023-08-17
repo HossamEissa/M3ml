@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Services\SMSGateways\VonageSMS;
 use Illuminate\Http\Request;
 use Illuminate\Support\Str;
 use Illuminate\Support\Facades\Storage;
@@ -41,11 +42,11 @@ if (!function_exists('delete_image')) {
 }
 
 if (!function_exists('SMS_make')) {
-    function SMS_make($id, $verificationServices)
+    function SMS_make($user, $verificationServices)
     {
         $verification = [];
         $sms_services = $verificationServices;
-        $verification['user_id'] = $id;
+        $verification['user_id'] = $user->id;
         $verification_data = $sms_services->setVerificationCode($verification);
         $message = $sms_services->getSMSVerifyMessage($verification_data->code);
         //return app(VonageSMS::class)->sendSms($user->phone_number, $message , 'المعمل');

@@ -45,7 +45,7 @@ class RegisterController extends Controller
                 $user->save();
             }
 
-            SMS_make($user->id, $this->verificationServices);
+            SMS_make($user, $this->verificationServices);
 
             DB::commit();
             $msg = "تم تسجيل الحساب بنجاح";
