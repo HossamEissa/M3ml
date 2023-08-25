@@ -112,4 +112,16 @@ class FactoryController extends Controller
         }
     }
 
+    public function all_m3ml(Request $request){
+        try{
+            $all = Factory::all();
+
+            return $all;
+
+        } catch (\Exception $e) {
+            $msg = $e->getMessage();
+            return $this->returnError($error = "", $msg);
+        }
+    }
+
 }

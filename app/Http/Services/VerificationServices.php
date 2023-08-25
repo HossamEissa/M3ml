@@ -14,15 +14,15 @@ class VerificationServices
     public function setVerificationCode($data)
     {
         $code = mt_rand(100000, 999999);
-        $data['code'] = 555555;
+        $data['code'] = $code;
         Verification_code::whereNotNull('user_id')->where(['user_id' => $data['user_id']])->delete();
         return Verification_code::create($data);
     }
 
     public function getSMSVerifyMessage($code)
     {
-        $message = "This is your verification Code from Hossam Eissa dont't share it ";
-        return $message . $code;
+        $message = "هذا كود التحقق الخاص بك  ";
+        return $code .''. $message;
     }
 
     public function checkOtpCode($mobile, $code)

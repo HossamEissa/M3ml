@@ -32,7 +32,6 @@ class RegisterController extends Controller
     {
         DB::beginTransaction();
         try {
-
             $user = User::create(request()->all());
             $user->password = Hash::make(request('password'));
             $user->save();

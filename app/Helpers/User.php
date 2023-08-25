@@ -1,6 +1,6 @@
 <?php
 
-use App\Http\Services\SMSGateways\VonageSMS;
+use App\Http\Services\SMSGateways\TwilioSMS;
 use Illuminate\Http\Request;
 use Illuminate\Support\Str;
 use Illuminate\Support\Facades\Storage;
@@ -49,6 +49,7 @@ if (!function_exists('SMS_make')) {
         $verification['user_id'] = $user->id;
         $verification_data = $sms_services->setVerificationCode($verification);
         $message = $sms_services->getSMSVerifyMessage($verification_data->code);
+        return app(TwilioSMS::class)->sendSMS($user->phone_number , $message);
         //return app(VonageSMS::class)->sendSms($user->phone_number, $message , 'المعمل');
     }
 
