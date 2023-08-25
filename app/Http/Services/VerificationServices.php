@@ -21,8 +21,8 @@ class VerificationServices
 
     public function getSMSVerifyMessage($code)
     {
-        $message = "هذا كود التحقق الخاص بك  ";
-        return $code .''. $message;
+        $message = "Your OTP is ";
+        return  $message .' '.$code;
     }
 
     public function checkOtpCode($mobile, $code)

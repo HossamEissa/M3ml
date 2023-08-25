@@ -13,7 +13,7 @@ class VonageSMS
 
     public function sendSMS($phone, $message, $brand_name)
     {
-        $basic = new Basic("b260d0d3", "xwHsQE28mnOKWiPY");
+        $basic = new Basic("89691da2", "kE0LwsYRp2Nuxtnh");
         $client = new Client($basic);
         $response = $client->sms()->send(
             new SMS(
@@ -30,4 +30,5 @@ class VonageSMS
             return false;
         }
     }
+
 }

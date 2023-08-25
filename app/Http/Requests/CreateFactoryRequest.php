@@ -31,11 +31,11 @@ class CreateFactoryRequest extends FormRequest
     {
         return [
             'user_name' => ['required', 'string', new NoSpaces(), 'unique:factories,user_name'],
-            'name' => 'required|string',
-            'title' => 'required|string',
+            'name' => '|string',
+            'title' => '|string',
             'facebook' => 'nullable|string',
             'whatsApp' => 'nullable|string',
-            'description' => 'required|string',
+            'description' => '|string',
             'active' => 'required|boolean'
         ];
     }
