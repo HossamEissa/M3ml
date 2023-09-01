@@ -28,14 +28,12 @@ Route::post('activation', [ActivationController::class, 'activation']);
 
 ################################ Factory ###############################################
 Route::post('create-factory', [RegisterForNewAdmin::class, 'create']);
+Route::post('change-password', [ChangePassword::class, 'change_password']);
+Route::post('change-password-super-admin', [ChangePassword::class, 'change_password_super']);
+Route::get('all-users', [FactoryController::class, 'allUsers']);
+Route::post('edit-factory', [FactoryController::class, 'edit']);
+Route::get('all-m3ml', [FactoryController::class, 'all_m3ml']);
 
-Route::group(['middleware' => 'CheckJwtAuth:admin'], function () {
-    Route::post('change-password' , [ChangePassword::class , 'change_password']);
-    Route::post('change-password-super-admin' , [ChangePassword::class , 'change_password_super']);
-    Route::get('all-users', [FactoryController::class, 'allUsers']);
-    Route::post('edit-factory', [FactoryController::class, 'edit']);
-    Route::get('all-m3ml' , [FactoryController::class , 'all_m3ml']);
-});
 ################################ End Factory ###########################################
 
 ################################# Document #############################################
