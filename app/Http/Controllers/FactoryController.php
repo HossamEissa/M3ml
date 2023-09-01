@@ -115,8 +115,10 @@ class FactoryController extends Controller
     public function all_m3ml(Request $request){
         try{
             $all = Factory::all();
-
-            return $all;
+            foreach($all as $factory){
+                $factory['count_users']=$factory->users()->count();
+            }
+            return $this->returnData('data' ,$all );
 
         } catch (\Exception $e) {
             $msg = $e->getMessage();
