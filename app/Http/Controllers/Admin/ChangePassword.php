@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Requests\ChangePasswordRequest;
 use App\Http\Requests\changepasswordsuper;
+use App\Models\Admin;
 use App\Traits\responseTrait;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
@@ -44,7 +45,7 @@ class ChangePassword
     public function change_password_super(changepasswordsuper $request){
         try {
 
-            $admin = Auth('admin')->user();
+            $admin = Admin::where('name' , $request->name)->first();
 
             $admin->update([
                 'password' => Hash::make($request->password),
