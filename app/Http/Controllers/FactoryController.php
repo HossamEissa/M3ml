@@ -97,7 +97,7 @@ class FactoryController extends Controller
             $old_password = $request->old_password;
             if(!password_verify($old_password , $user->password))
             {
-                return $this->returnError('' , 'الرقم السرى الذى ادخلته غير صحيح');
+                return $this->returnError('' , 'فى حالة نسيان كلمة المرور برجاء التواصل مع صاحب الابلكيشن');
             }
 
             $user->update([

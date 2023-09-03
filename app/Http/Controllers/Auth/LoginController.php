@@ -25,7 +25,7 @@ class LoginController extends Controller
 
             $credentials = $request->only('phone_number', 'password');
             if (!auth::guard('api')->attempt($credentials)) {
-                $msg = "رقم الهاتف او الرقم السرى غير صحيح ";
+                $msg = "فى حالة نسيان كلمة المرور برجاء التواصل مع صاحب الابلكيشن";
                 return $this->returnError('000', $msg);
             }
 

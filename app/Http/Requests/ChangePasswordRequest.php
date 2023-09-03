@@ -35,7 +35,7 @@ class ChangePasswordRequest extends FormRequest
     public function messages()
     {
         return [
-            'old_password.required' => 'من فضلك ادخل الرقم السرى الذى تريد تغيره',
+            'old_password.required' => 'فى حالة نسيان كلمة المرور برجاء التواصل مع صاحب الابلكيشن',
             'password.required' => 'من فضلك ادخل الرقم السرى الجديد' ,
             'password.confirmed' => 'الرقم السرى غير متطابق',
             'password.min' => 'يجب الايقل عن 8 حروف او ارقام',

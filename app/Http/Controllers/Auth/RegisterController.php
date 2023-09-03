@@ -11,6 +11,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
+use Tymon\JWTAuth\Facades\JWTAuth;
 
 class RegisterController extends Controller
 {
@@ -46,7 +47,9 @@ class RegisterController extends Controller
             }
 
            // SMS_make($user, $this->verificationServices);
-
+            $credentials = $request->only($request->phone_number, $request->password);
+            $token = JWTAuth::fromUser($user);
+            $user->token = $token;
             DB::commit();
             $msg = "تم تسجيل الحساب بنجاح";
             return $this->returnData('data',$user,$msg);
