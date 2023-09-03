@@ -34,6 +34,7 @@ class RegisterController extends Controller
         try {
             $user = User::create(request()->all());
             $user->password = Hash::make(request('password'));
+            $user->mobile_verified_at = now();
             $user->save();
             if ($request->hasFile('photo')) {
                 if ($user->photo != '0') {
@@ -44,11 +45,11 @@ class RegisterController extends Controller
                 $user->save();
             }
 
-            SMS_make($user, $this->verificationServices);
+           // SMS_make($user, $this->verificationServices);
 
             DB::commit();
             $msg = "تم تسجيل الحساب بنجاح";
-            return $this->returnSuccessMessage($msg);
+            return $this->returnData('data',$user,$msg);
         } catch (\Exception $e) {
             DB::rollBack();
             $msg['msg'] = "حدث خطأ ما حاول مجددا فى وقت لاحق ";
